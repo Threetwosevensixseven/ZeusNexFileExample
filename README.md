@@ -24,7 +24,7 @@ Obtain this from [here](https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXL
 the `DOT` directory on your Next SD card, overwriting the file already there.
 
 ## TZX_Display
-View the `.NEX` file with Simon Brattel's `tzx_display.exe`. Latest version is always available [here](http://www.desdes.com/products/oldfiles/tzx_display.exe).
+Parse and inspect the `.NEX` file with Simon Brattel's `tzx_display.exe`. Latest version is always available [here](http://www.desdes.com/products/oldfiles/tzx_display.exe).
 
 ## Thanks
 [Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/), [Simon Brattel](http://www.desdes.com/), [Allen Albright](https://github.com/z88dk/z88dk/wiki), [Jim Bagley](http://www.jimbagley.co.uk/) and [W B Yeats](https://en.wikipedia.org/wiki/W._B._Yeats).
