@@ -24,7 +24,7 @@ Obtain this from here: https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXLO
 the DOT directory on your Next SD card, overwriting the file already there.
 
 ## Thanks
-[Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/) and 0Simon Brattel](http://www.desdes.com/).
+[Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/) and [Simon Brattel](http://www.desdes.com/).
 
 ## Licence
 [Apache 2.0](https://github.com/Threetwosevensixseven/ZeusNexFileExample/blob/master/LICENSE)
