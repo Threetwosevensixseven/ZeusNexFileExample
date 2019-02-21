@@ -30,8 +30,8 @@ Main                    proc                            ; (Necessary for making 
                         ld bc, 2                        ; Read two bytes
                         F_READ(TextBuffer.Length)       ; from the current position in the .NEX file.
                                                         ; This should correspond to the NexDataLength variable below.
-                        ld bc, (TextBuffer.Length)      ; Set length of remaining private data to read.
-                        F_READ(TextBuffer.Start)
+                        ld bc, (TextBuffer.Length)      ; Set length of remaining private data to read,
+                        F_READ(TextBuffer.Start)        ; and read it from the new current position in the file.
 
                         call Pointer.Init
 NextLine:               ld a, (hl)                      ; Read line length
@@ -54,7 +54,7 @@ Pointer                 proc                            ; This procedure encapsu
 Init:                   ld hl, TextBuffer.Start         ; Set the pointer
                         ld (Value), hl                  ; to the start of the text buffer
                         ret
-Inc:                    ld hl, [Value]0                 ; Use Zeus data label to store variable inline
+Inc:                    ld hl, [Value]0                 ; Use Zeus data label to store variable inline (SMC saves space)
                         inc hl                          ; Advance the pointer
                         ld (Value), hl                  ; Save the new pointer position
 NextLine:
@@ -123,13 +123,13 @@ M_P3DOS                 macro(Command, Bank)            ; Semantic macro to call
                         exx                             ; M_P3DOS: See NextZXOS_API.pdf page 37
                         ld de, Command                  ; DE=+3DOS/IDEDOS/NextZXOS call ID
                         ld c, Bank                      ; C=RAM bank that needs to be paged (usually 7, but 0 for some calls)
-                        rst $08
+                        rst $08                         ; rst $08 is the instruction to call an esxDOS API function.
                         noflow                          ; Zeus normally warns when data might be executed, suppress.
                         db $94                          ; esxDOS API call: M_P3DOS executes a NextXZXOS API call
 mend
 
 esxDOS                  macro(Command)
-                        rst $08
+                        rst $08                         ; rst $08 is the instruction to call an esxDOS API function.
                         noflow                          ; Zeus normally warns when data might be executed, suppress.
                         db Command                      ; For esxDOS API calls, the data byte is the command number.
 mend
@@ -146,6 +146,10 @@ zeusassert zeusver<=74, "Upgrade to Zeus v4.00 (TEST ONLY) or above, available a
 ; Generate a NEX file                                   ; Instruct the .NEX loader to write the file handle to this
 pu8NEXFileHandle = FileHandle                           ; address, and keep the file open for further use by us.
 output_nex      "nex_example.nex", $FF40, Main          ; Generate the file, with SP argument followed PC
+                                                        ; Zeus "just knows" which 16K banks to include in the .NEX file,
+                                                        ; making generation a one-liner if you don't want loading screens
+                                                        ; or external palette files. See History/Documentation in Zeus
+                                                        ; for complete instructions and syntax.
 
 ; Append some private structured data to the nex file.
 ; This will be read at the start of the program,
