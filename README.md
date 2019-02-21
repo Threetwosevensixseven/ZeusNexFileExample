@@ -19,12 +19,12 @@ This ZX Spectrum Next demo demonstrates:
 Currently assembles with a pre-release version of Zeus for Windows, available [here](http://www.desdes.com/products/oldfiles/zeustest.exe).
 
 ## .NEX file Loader
-NOTE - This .NEX file uses V1.2 format features, and requires a recent version of the NEXLOAD dot command to load it.
-Obtain this from here: https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXLOAD?inline=false and copy it into
-the DOT directory on your Next SD card, overwriting the file already there.
+_**NOTE:** This .NEX file uses V1.2 format features, and requires a recent version of the NEXLOAD dot command to load it.
+Obtain this from [here](https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXLOAD?inline=false). Copy it into
+the DOT directory on your Next SD card, overwriting the file already there._
 
 ## Thanks
-[Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/) and [Simon Brattel](http://www.desdes.com/).
+[Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/), [Simon Brattel](http://www.desdes.com/) and [Allen Albright](https://github.com/z88dk/z88dk/wiki).
 
 ## Licence
 [Apache 2.0](https://github.com/Threetwosevensixseven/ZeusNexFileExample/blob/master/LICENSE)
