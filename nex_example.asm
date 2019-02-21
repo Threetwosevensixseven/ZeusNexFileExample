@@ -25,7 +25,7 @@ Main                    proc                            ; (Necessary for making 
                         OpenOutputChannel(2)            ; ROM: Open channel to upper screen (channel 2)
                         ld hl, TokenizedBAS.NarrowChars ; IN: HL=address of tokenized BASIC command(s), terminated w/ $0D
                         M_P3DOS($01C0, 0)               ; API IDE_BASIC ($01C0, Bank 0) (see NextZXOS_API.pdf page 18)
-                        PrintAt(0, 0)                   ; Equivant to PRINT AT 0, 0
+                        PrintAt(0, 0)                   ; Equivalent to PRINT AT 0, 0
 
                         ld bc, 2                        ; Read two bytes
                         F_READ(TextBuffer.Length)       ; from the current position in the .NEX file.
