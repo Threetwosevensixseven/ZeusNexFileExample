@@ -6,6 +6,8 @@ a .NEX file, and reading that private data from asm. Plus several other neat Zeu
 
 Currently assembles with a pre-release version of Zeus, available at http://www.desdes.com/products/oldfiles/zeustest.exe
 
+View the .NEX file with the supplied tzx_display.exe. Latest version at http://www.desdes.com/products/oldfiles/tzx_display.exe
+
 NOTE - This .NEX file uses V1.2 format features, and requires a recent version of the NEXLOAD dot command to load it.
 Obtain this from here: https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXLOAD?inline=false and copy it into
 the DOT directory on your Next SD card, overwriting the file already there.
