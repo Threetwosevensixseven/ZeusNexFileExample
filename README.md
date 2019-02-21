@@ -23,5 +23,8 @@ NOTE - This .NEX file uses V1.2 format features, and requires a recent version o
 Obtain this from here: https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXLOAD?inline=false and copy it into
 the DOT directory on your Next SD card, overwriting the file already there.
 
+## Thanks
+Garry Lancaster and Simon Brattel.
+
 ## Licence
 [Apache 2.0](https://github.com/Threetwosevensixseven/ZeusNexFileExample/blob/master/LICENSE)
