@@ -24,7 +24,7 @@ Obtain this from [here](https://gitlab.com/thesmog358/tbblue/raw/master/dot/NEXL
 the DOT directory on your Next SD card, overwriting the file already there.
 
 ## Thanks
-[Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/), [Simon Brattel](http://www.desdes.com/), [Allen Albright](https://github.com/z88dk/z88dk/wiki) and [W_B Yeats](https://en.wikipedia.org/wiki/W._B._Yeats).
+[Garry Lancaster](http://www.worldofspectrum.org/zxplus3e/), [Simon Brattel](http://www.desdes.com/), [Allen Albright](https://github.com/z88dk/z88dk/wiki) and [W B Yeats](https://en.wikipedia.org/wiki/W._B._Yeats).
 
 ## Licence
 [Apache 2.0](https://github.com/Threetwosevensixseven/ZeusNexFileExample/blob/master/LICENSE)
