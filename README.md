@@ -8,6 +8,7 @@ This ZX Spectrum Next demo demonstrates:
 * Calling the esxDOS and NextZXOS APIs  
 * Printing using NextBASIC 51 column mode from asm  
 * Using Zeus to append some private structured data to a .NEX file  
+* Keeping a .NEX file open after loading for use in the program  
 * Reading that private data from asm  
 * Several other neat Zeus features.
 
