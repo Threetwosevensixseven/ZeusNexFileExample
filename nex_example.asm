@@ -119,26 +119,24 @@ Border                  macro(Colour)                   ; Semantic macro to call
                         ld (23624), a                   ; Makes the ROM respect the new border colour
 mend
 
-M_P3DOS                 macro(Command, Bank)            ; Semantic macro to call an NextZXOS routine via the esxDOS API
-                        exx                             ; M_P3DOS: See NextZXOS_API.pdf page 37
-                        ld de, Command                  ; DE=+3DOS/IDEDOS/NextZXOS call ID
-                        ld c, Bank                      ; C=RAM bank that needs to be paged (usually 7, but 0 for some calls)
-                        rst $08                         ; rst $08 is the instruction to call an esxDOS API function.
-                        noflow                          ; Zeus normally warns when data might be executed, suppress.
-                        db $94                          ; esxDOS API call: M_P3DOS executes a NextXZXOS API call
-mend
-
 esxDOS                  macro(Command)                  ; Semantic macro to call an esxDOS routine
                         rst $08                         ; rst $08 is the instruction to call an esxDOS API function.
                         noflow                          ; Zeus normally warns when data might be executed, suppress.
                         db Command                      ; For esxDOS API calls, the data byte is the command number.
 mend
 
+M_P3DOS                 macro(Command, Bank)            ; Semantic macro to call an NextZXOS routine via the esxDOS API
+                        exx                             ; M_P3DOS: See NextZXOS_API.pdf page 37
+                        ld de, Command                  ; DE=+3DOS/IDEDOS/NextZXOS call ID
+                        ld c, Bank                      ; C=RAM bank that needs to be paged (usually 7, but 0 for some calls)
+                        esxDOS($94)                     ; esxDOS API: M_P3DOS ($94)
+mend
+
 F_READ                  macro(Address)                  ; Semantic macro to call an esxDOS routine
                                                         ; In: BC=bytes to read
                         ld a, (FileHandle)              ; A=file handle
                         ld ix, Address                  ; IX=address
-                        esxDOS($9D)                     ; esxDOS API: F_READ ($9D)
+                        esxDOS($9D)
 mend
 
 ; Raise an assembly-time error if the expression evaluates false
