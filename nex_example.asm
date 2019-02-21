@@ -128,7 +128,7 @@ M_P3DOS                 macro(Command, Bank)            ; Semantic macro to call
                         db $94                          ; esxDOS API call: M_P3DOS executes a NextXZXOS API call
 mend
 
-esxDOS                  macro(Command)                  ; Semantic macro to call a esxDOS routine
+esxDOS                  macro(Command)                  ; Semantic macro to call an esxDOS routine
                         rst $08                         ; rst $08 is the instruction to call an esxDOS API function.
                         noflow                          ; Zeus normally warns when data might be executed, suppress.
                         db Command                      ; For esxDOS API calls, the data byte is the command number.
