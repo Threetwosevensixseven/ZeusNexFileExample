@@ -11,6 +11,9 @@ This ZX Spectrum Next demo demonstrates:
 * Reading that private data from asm  
 * Several other neat Zeus features.
 
+## Screenshot
+![Screenshot](https://github.com/Threetwosevensixseven/ZeusNexFileExample/raw/master/nexdemo.png)
+
 ## Assembly
 Currently assembles with a pre-release version of Zeus for Windows, available [here](http://www.desdes.com/products/oldfiles/zeustest.exe).
 
