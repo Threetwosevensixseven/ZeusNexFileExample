@@ -119,7 +119,7 @@ Border                  macro(Colour)                   ; Semantic macro to call
                         ld (23624), a                   ; Makes the ROM respect the new border colour
 mend
 
-M_P3DOS                 macro(Command, Bank)            ; Semantic macro to call a NextZXOS routine via the esxDOS API
+M_P3DOS                 macro(Command, Bank)            ; Semantic macro to call an NextZXOS routine via the esxDOS API
                         exx                             ; M_P3DOS: See NextZXOS_API.pdf page 37
                         ld de, Command                  ; DE=+3DOS/IDEDOS/NextZXOS call ID
                         ld c, Bank                      ; C=RAM bank that needs to be paged (usually 7, but 0 for some calls)
@@ -134,7 +134,7 @@ esxDOS                  macro(Command)                  ; Semantic macro to call
                         db Command                      ; For esxDOS API calls, the data byte is the command number.
 mend
 
-F_READ                  macro(Address)                  ; Semantic macro to call a esxDOS routine
+F_READ                  macro(Address)                  ; Semantic macro to call an esxDOS routine
                                                         ; In: BC=bytes to read
                         ld a, (FileHandle)              ; A=file handle
                         ld ix, Address                  ; IX=address
