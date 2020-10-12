@@ -6,11 +6,17 @@ This ZX Spectrum Next demo demonstrates:
 * Creating `.NEX` files in Zeus  
 * Running NextBASIC commands from asm
 * Calling the esxDOS and NextZXOS APIs  
+* Tokenizing plain text into NextBASIC from asm
+* Executing tokenized NextBASIC from asm
 * Printing using NextBASIC 51 column mode from asm  
 * Using Zeus to append some private structured data to a `.NEX` file  
 * Keeping a `.NEX` file open after loading for use in the program  
 * Reading that private data from asm  
 * Several other neat Zeus features.
+
+Note that the NextZXOS ```IDE_BASIC``` API call has slightly changed since this example was originally written. It used to accept tokenized numbers without six byte embedded floats, but now requires the embedded floats to be present. 
+
+The example has been rewritten to call the ```IDE_TOKENIZE``` API call with a plain text version of the BASIC statements, and pass the result to ```IDE_BASIC```. This has the advantage of always using the same tokenization rules the current version of NextZXOS uses.
 
 ## Screenshot
 ![Screenshot](https://github.com/Threetwosevensixseven/ZeusNexFileExample/raw/master/nexdemo.png)

@@ -16,14 +16,27 @@ the DOT directory on your Next SD card, overwriting the file already there.
 zeusemulate             "Next", "RAW"                   ; RAW prevents Zeus from adding some BASIC emulator-friendly
 zoLogicOperatorsHighPri = false                         ; data like the stack and system variables. Not needed because
 zxAllowFloatingLabels   = false                         ; this only runs on the Next, and everything is already present.
+optionsize 5
+Cspect optionbool 15, -15, "Cspect", false              ; Zeus GUI option to launch CSpect
+UploadNext optionbool 80, -15, "Next", false            ; Zeus GUI option to upload to Next FLashAir wifi SD card
 
 org $8000                                               ; This should keep our code clear of NextBASIC sysvars
 Main                    proc                            ; (Necessary for making NextZXOS API calls)
                         di
-                        nextreg $07, 10                 ; Next Turbo 14MHz
+                        nextreg $07, %11                ; Next Turbo 28MHz
                         Border(7)
+
                         OpenOutputChannel(2)            ; ROM: Open channel to upper screen (channel 2)
-                        ld hl, TokenizedBAS.NarrowChars ; IN: HL=address of tokenized BASIC command(s), terminated w/ $0D
+
+                        ld b, 0                         ; IN: B=0, tokenise BASIC line
+                        ld c, 4                         ; IN: C=8K bank containing buffer for untokenised BASIC line
+                        ld hl, UnokenizedBAS-$8000      ; IN: HL=offset in bank of buffer for untokenised line
+                        M_P3DOS($01D8, 0)               ; API IDE_TOKENIZE ($01D8, Bank 0) (see NextZXOS_and_esxDOS_APIs.pdf page 22)
+                        jr nc, Error                    ; If Carry flag unset, tokenize failed
+                        jr z, Error                     ; If Zero flag set, tokenize failed
+                                                        ; OUT: HL=address of tokenized BASIC command(s), terminated w/ $0D
+
+                                                        ; IN: HL=address of tokenized BASIC command(s), terminated w/ $0D
                         M_P3DOS($01C0, 0)               ; API IDE_BASIC ($01C0, Bank 0) (see NextZXOS_API.pdf page 18)
                         PrintAt(0, 0)                   ; Equivalent to PRINT AT 0, 0
 
@@ -50,6 +63,11 @@ EndOfText:
                                                         ; .NEX file, but in this case the only way to exit is to reset
 pend                                                    ; the Next with F4 or F1, which closes all open files anyway.
 
+Error                   proc
+                        Border(2)                       ; Set border red (2)
+                        jr $-2                          ; Go into an endless loop
+pend
+
 Pointer                 proc                            ; This procedure encapsulates the pointer logic. Who needs OOP!
 Init:                   ld hl, TextBuffer.Start         ; Set the pointer
                         ld (Value), hl                  ; to the start of the text buffer
@@ -66,21 +84,10 @@ NextLine:
                         ret
 pend
 
-TokenizedBAS            proc                            ; Tokenized NextBASIC to switch into 51 column mode:
-NarrowChars:            dh "9C25312C25313AFB3A"         ; LAYER %1,%1:CLS:PRINT CHR$ 30;CHR$ 5;
-                        dh "F5C233303BC2353B0D"         ; Tedious note about how to arrive at this magic hex string:
-                                                        ; 1) Make a program with a NextBASIC line doing what you need
-                                                        ;    (ideally the first line). It can include colons.
-                                                        ; 2) Know what the the token of the first statement is - from
-                                                        ;    i)  NextBASIC_New_Commands_and_Features.pdf page 2; or
-                                                        ;    ii) http://www.worldofspectrum.org/ZXSpectrum128+3Manual/chapter8pt28.html
-                                                        ; 3) Invoke the Multiface > Debug Tools > Memory Browser
-                                                        ; 4) Type A and enter address $5C53 (PROG sysvar, start of BASIC)
-                                                        ; 5) Read the word there, press A again and type that address
-                                                        ; 6) Find your known token shortly afterwards.
-                                                        ; 7) The tokenized hex runs from there till an $0D EOL marker.
-                                                        ; 8) Optionally, remove any embedded numbers. These are $OE
-pend                                                    ;    followed by five further bytes (sinclair float format).
+UnokenizedBAS           proc                            ; Untokenized NextBASIC to switch into 51 column mode:
+                        db "LAYER %1,%1:CLS:"
+                        db "PRINT CHR$ 30;CHR$ 5;", 13
+pend
 
 FileHandle:             db 0                            ; This byte is automagically poked here by the .NEX loader
                                                         ; because of "pu8NEXFileHandle = Main.FileHandle" below
@@ -140,7 +147,7 @@ F_READ                  macro(Address)                  ; Semantic macro to call
 mend
 
 ; Raise an assembly-time error if the expression evaluates false
-zeusassert zeusver<=74, "Upgrade to Zeus v4.00 (TEST ONLY) or above, available at http://www.desdes.com/products/oldfiles/zeustest.exe"
+zeusassert zeusver>=74, "Upgrade to Zeus v4.00 (TEST ONLY) or above, available at http://www.desdes.com/products/oldfiles/zeustest.exe"
 
 ; Generate a NEX file                                   ; Instruct the .NEX loader to write the file handle to this
 pu8NEXFileHandle = FileHandle                           ; address, and keep the file open for further use by us.
@@ -182,7 +189,14 @@ output_nex_data "nex_example.nex", db -1                ; No lines are >254 long
 NexDataLength = output_nex_data("nex_example.nex")-2
 
 ; Copy .NEX file to wifi-enabled SD card
-; zeusinvoke "upload.bat"                               ; Uncomment this to use
+if enabled UploadNext
+  zeusinvoke "upload.bat", "", false                    ; Uncomment this to use
+endif
+
+; Launch .NEX file in CSpect
+if enabled Cspect                                       ; In CSpect.bat there is a hardcoded path to CSpect
+  zeusinvoke "cspect.bat", "", false                    ; and to the SD image file file container.
+endif                                                   ; Change these to reflect your own paths and filenames.
 
 ; To set this up, create a file called upload.bat in the same directory as this source file,
 ; with the following contents (everything inside the /* */ block comments):
